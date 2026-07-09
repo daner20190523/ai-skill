@@ -1,0 +1,23 @@
+{
+  "skill_name": "观点分裂文案",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "写一段关于'内卷 vs 躺平'的观点分裂文案，用孔子和庄子的口吻",
+      "expected_output": "包含两种对立观点的Markdown文案，一种用孔子风格，一种用庄子风格",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "帮我写一个有深度的观点分裂文案，关于'金钱与理想'",
+      "expected_output": "深度哲学风格的Markdown文案，包含正反两种观点",
+      "files": []
+    },
+    {
+      "id": 3,
+      "prompt": "用孔子和庄子的口吻，写一段关于'婚姻与单身'的对立观点文案",
+      "expected_output": "论语体和逍遥游风格的Markdown文案输出",
+      "files": []
+    }
+  ]
+}
