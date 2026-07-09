@@ -42,49 +42,37 @@ if sys.platform == "win32":
 # ============================================================
 
 def load_config(config_path: str = None) -> dict:
-    """加载 YAML 配置文件。
-    搜索顺序：命令行指定 > wechat_config.secret.yaml > wechat_config.yaml > wechat_config.template.yaml > 项目目录同名文件
-    所有找到的文件会被合并（后加载的覆盖先加载的），确保多层配置叠加生效。
-    """
+    """加载 YAML 配置文件。优先 wechat_config.secret.yaml，fallback wechat_config.yaml。"""
+    search_paths = []
     skill_dir = Path(__file__).resolve().parent.parent
 
-    # 固定搜索路径列表
-    candidates = []
-
     if config_path:
-        candidates.append(Path(config_path))
-
-    # 依次搜索：secret > 正式 > 模板（都在 skill config 目录）
-    for name in ["wechat_config.secret.yaml", "wechat_config.yaml", "wechat_config.template.yaml"]:
-        p = skill_dir / "config" / name
-        if p.exists():
-            candidates.append(p)
-
-    # 如果当前工作目录跟 skill_dir 不同，也搜一下项目根下的 config
-    cwd = Path.cwd()
-    if cwd.resolve() != skill_dir.resolve():
-        for name in ["wechat_config.secret.yaml", "wechat_config.yaml"]:
-            p = cwd / "config" / name
-            if p.exists():
-                candidates.append(p)
+        search_paths.append(Path(config_path))
+    else:
+        search_paths = [
+            skill_dir / "config" / "wechat_config.template.yaml",
+            skill_dir / "config" / "wechat_config.yaml",
+        ]
 
     cfg = {}
-    for p in candidates:
-        try:
-            import yaml
-            with open(p, "r", encoding="utf-8") as f:
-                loaded = yaml.safe_load(f)
-            if loaded:
-                cfg.update(loaded)
-                print(f"[OK] 配置已加载: {p}")
-        except ImportError:
-            print("[ERROR] 缺少 PyYAML，请运行: pip install pyyaml", file=sys.stderr)
-            sys.exit(1)
-        except Exception as e:
-            print(f"[WARN] 配置加载失败: {e}", file=sys.stderr)
+    for p in search_paths:
+        if p.exists():
+            try:
+                import yaml
+                with open(p, "r", encoding="utf-8") as f:
+                    loaded = yaml.safe_load(f)
+                if loaded:
+                    cfg = loaded
+                    print(f"[OK] 配置已加载: {p}")
+                    break
+            except ImportError:
+                print("[ERROR] 缺少 PyYAML，请运行: pip install pyyaml", file=sys.stderr)
+                sys.exit(1)
+            except Exception as e:
+                print(f"[WARN] 配置加载失败: {e}", file=sys.stderr)
 
     if not cfg:
-        print("[ERROR] 未找到配置文件！请在 config/ 目录下创建 wechat_config.yaml 并填入真实密钥",
+        print("[ERROR] 未找到配置文件！请复制 config/wechat_config.template.yaml -> wechat_config.secret.yaml 并填入真实密钥",
               file=sys.stderr)
         sys.exit(1)
 
@@ -216,7 +204,7 @@ def _api_post(url: str, data: dict) -> dict:
 # ============================================================
 
 def upload_image_to_wechat(
-    image_path: str, access_token: str, base_dir: str = None
+    image_path: str, access_token: str
 ) -> str:
     """上传图片到微信「图文消息内的图片」素材，返回微信 URL。
 
@@ -229,9 +217,6 @@ def upload_image_to_wechat(
         return image_path
 
     local_path = Path(image_path)
-    # 相对路径 → 基于 base_dir 解析
-    if not local_path.is_absolute() and base_dir:
-        local_path = (Path(base_dir) / image_path).resolve()
     if not local_path.exists():
         print(f"   ⚠ 图片不存在，跳过: {image_path}")
         return image_path
@@ -272,28 +257,19 @@ def upload_image_to_wechat(
         return image_path
 
 
-def process_images_in_html(html: str, access_token: str, base_dir: str = None) -> str:
-    """扫描 HTML 中的本地图片并上传到微信素材。
-
-    ⚠️ 微信编辑器会过滤 <style> 块和不安全的 CSS 属性。
-    这里只做一件事：把本地图片上传到微信 CDN，并替换 src。
-    不使用固定 style（保留原始元素的 style）。
-
-    base_dir: HTML 文件所在目录，用于解析相对路径。
-    """
+def process_images_in_html(html: str, access_token: str) -> str:
+    """扫描 HTML 中的本地图片并上传到微信素材。"""
     import re
 
     def replacer(m):
-        full_tag = m.group(0)
         src = m.group(1)
-        if src.startswith(("http://", "https://", "data:")):
-            return full_tag
-        new_url = upload_image_to_wechat(src, access_token, base_dir=base_dir)
-        # 只替换 src，保留其余属性不变
-        return full_tag.replace(f'src="{src}"', f'src="{new_url}"', 1)
+        alt = m.group(2)
+        if src.startswith(("http://", "https://")):
+            return m.group(0)
+        new_url = upload_image_to_wechat(src, access_token)
+        return f'<img src="{new_url}" alt="{alt}" style="max-width:100%;height:auto;display:block;margin:12px auto;border-radius:4px;">'
 
-    # 匹配任何 img 标签中的 src 属性（不要求特定属性顺序）
-    pattern = r'<img[^>]*\bsrc="([^"]+)"[^>]*>'
+    pattern = r'<img[^>]*src="([^"]+)"[^>]*alt="([^"]*)"[^>]*>'
     return re.sub(pattern, replacer, html)
 
 
@@ -728,8 +704,7 @@ def main():
     # 7) 上传 HTML 中内嵌的本地图片（仅 HTML 模式，--upload-images）
     if args.upload_images and content_html:
         print("\n🖼 上传本地图片到微信素材库...")
-        base_dir = str(html_path.parent) if html_path else None
-        content_html = process_images_in_html(content_html, token, base_dir=base_dir)
+        content_html = process_images_in_html(content_html, token)
 
     # 8) 推送到草稿箱
     result = push_draft(

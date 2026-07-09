@@ -1,13 +1,17 @@
 ---
 name: wechat-publisher
-description: 微信公众号图文发布技能。支持两种模式：① 切割图片直传（--image-files，推荐，保留完整视觉效果）② HTML 纯内联样式直推（微信兼容，文字可选中代码可复制）。含 AI 封面图生成（极简风 900×383）、图片切割、草稿箱推送全流程。触发词："上传公众号""发布到微信""推送到草稿箱""直接发公众号图文""公众号封面""生成封面图"。
+description: 微信公众号图文发布技能。将卡片图片/HTML 推送到公众号草稿箱。支持两种模式：① 切割图片直传（--image-files，推荐，保留完整视觉效果）② HTML 纯内联样式直推（微信兼容，文字可选中代码可复制）。含 AI 封面图生成（极简风 900×383）、草稿箱推送全流程。上游：@skill://tech-knowledge-card 生成 HTML → @skill://html-to-image 截图切割 → 本技能推送到公众号。触发词："上传公众号""发布到微信""推送到草稿箱""直接发公众号图文""公众号封面""生成封面图"。
 ---
 
 # WeChat Publisher — 微信公众号图文发布技能
 
+## 定位
+
+本技能是 **tech-knowledge-card 的下游发布技能**，负责将截图/HTML 推送到微信公众号草稿箱。**不负责内容撰写和截图切割**，只负责推送+封面图生成。上游内容由 `@skill://tech-knowledge-card` 生成，截图切割由 `@skill://html-to-image` 负责。
+
 ## 是什么
 
-将技术知识卡片内容发布到微信公众号草稿箱的完整工具链。支持两种核心模式，覆盖从生成到发布的全流程。
+将技术知识卡片内容发布到微信公众号草稿箱。上游截图管线 `@skill://html-to-image` 产出切割图片后，由本技能负责推送到公众号。
 
 ## 两种发布模式
 
@@ -153,14 +157,24 @@ upload:
   default_author: "daner技术栈"
 ```
 
+## 上下游协作
+
+```
+@skill://tech-knowledge-card  → 生成 HTML 知识卡片
+        │
+        └─→ @skill://html-to-image  → 截图 PNG + 切割
+                 │
+                 └─→ @skill://wechat-publisher  → 推送到公众号草稿箱
+```
+
+> 截图切割（html_to_png.py / split_image.py / extract_css.py）已拆分至独立技能 `@skill://html-to-image`。
+
 ## 依赖
 
 ```bash
 pip install pyyaml Pillow
 # HTML 直推模式额外需要：
 pip install pygments
-# 如需生成 PNG（html_to_png.py）：
-pip install playwright && playwright install chromium
 ```
 
 ## 文件结构
@@ -169,10 +183,9 @@ pip install playwright && playwright install chromium
 wechat-publisher/
 ├── SKILL.md                           ← 本文件（主入口）
 ├── scripts/
-│   ├── push_to_wechat_draft.py        ← 图片直传 + HTML 直推 + 草稿箱推送
-│   ├── generate_cover_image.py        ← AI 封面图 prompt + 智能裁剪
-│   ├── split_image.py                 ← 长图切割（每张 ~1500px）
-│   └── html_to_png.py                 ← HTML → PNG 长图截图（Playwright）
+│   ├── push_to_wechat_draft.py        ← 草稿箱推送（图片直传 + HTML 直推 + 封面上传）
+│   ├── generate_cover_image.py        ← AI 封面图 prompt 生成 + 裁剪（900×383）
+│   └── md_to_wechat_html.py           ← Markdown → 微信兼容 HTML（Pygments 代码高亮）
 ├── config/
 │   └── wechat_config.template.yaml    ← 微信配置模板（需复制并填入真实密钥）
 └── assets/
