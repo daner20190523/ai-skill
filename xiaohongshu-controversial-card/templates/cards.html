@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{TITLE}}</title>
+  <!--
+    本模板由「观点分裂卡片」技能生成，仅供「前端顶尖程序员」接手实现。
+    所有内容用 {{VARIABLE}} 占位，生产实现时：
+      (A) 用 config.json 通过 config.js 运行时注入；或
+      (B) 人工把 {{VARIABLE}} 替换为真实文案。
+    样式只定义 CSS 变量与布局骨架，具体视觉由前端在 css/cards.css 落地。
+  -->
+  <style>
+    /* ===== 配色变量（由 {{PALETTE_NAME}} 决定，前端按方案落地） ===== */
+    :root {
+      --ink:    #1a1410;   /* 主文字（浅底时用） */
+      --paper:  #faf7f0;   /* 浅底文字（深底时用） */
+      --accent: #c43a31;   /* 金句 / 强调 */
+      --gold:   #b8943e;   /* 署名 / 装饰 */
+      --bg:     #1a1410;   /* 卡片主底色 */
+      --bg-soft:#2a2218;   /* 次级底色 */
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { -webkit-font-smoothing: antialiased; }
+
+    body {
+      font-family: "Noto Serif SC", "PingFang SC", "KaiTi", serif;
+      background: #000;
+    }
+
+    /* ===== 卡片堆叠：无间距紧贴 ===== */
+    .card-stack { width: 1080px; }
+    .card {
+      width: 1080px;
+      height: 1440px;
+      position: relative;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--paper);
+    }
+    .card + .card { margin: 0; }
+
+    /* ===== 背景图层 + 遮罩（AI 配图，保证文字可读） ===== */
+    .card-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background-size: cover; background-position: center;
+      /* 无图时降级为纯色，前端可按 config 注入 background-image */
+    }
+    .card-mask {
+      position: absolute; inset: 0; z-index: 1;
+      /* 从底部深、顶部浅的压暗遮罩，确保正文/标题可读 */
+      background: linear-gradient(180deg,
+        rgba(0,0,0,0.35) 0%,
+        rgba(0,0,0,0.55) 55%,
+        rgba(0,0,0,0.80) 100%);
+    }
+    /* 内容层始终盖在背景/遮罩之上 */
+    .safe, .sign, .pivot, .sub { position: relative; z-index: 2; }
+
+    /* ===== 通用排版 ===== */
+    .safe { padding: 80px; height: 100%; display: flex; flex-direction: column; }
+    .label {
+      display: inline-block;
+      font-size: 22px; font-weight: 700; letter-spacing: 3px;
+      padding: 6px 18px; border: 1px solid var(--accent);
+      color: var(--accent); margin-bottom: 36px; align-self: flex-start;
+    }
+    .body-text {
+      font-size: 38px; line-height: 1.8; font-weight: 400;
+      color: var(--paper); letter-spacing: 0.5px;
+    }
+    .quote {
+      margin-top: 40px; padding: 28px 36px;
+      border-left: 6px solid var(--accent);
+      background: rgba(196,58,49,0.08);
+      font-size: 42px; line-height: 1.6; font-weight: 700;
+      color: var(--paper);
+    }
+    .sign {
+      position: absolute; left: 80px; bottom: 56px;
+      font-size: 24px; letter-spacing: 2px; color: var(--gold);
+    }
+
+    /* ===== Card 1 封面钩子 ===== */
+    #card-1 { background: linear-gradient(160deg, var(--bg) 0%, var(--bg-soft) 100%); }
+    #card-1 .trending {
+      font-size: 24px; letter-spacing: 1px; color: var(--gold);
+      margin-bottom: 40px;
+    }
+    #card-1 .title {
+      font-size: 72px; line-height: 1.25; font-weight: 800;
+      color: var(--paper); letter-spacing: -0.5px; margin-bottom: 48px;
+    }
+    #card-1 .hook {
+      font-size: 40px; line-height: 1.7; color: var(--paper);
+      border-top: 1px solid rgba(255,255,255,0.12); padding-top: 40px;
+    }
+
+    /* ===== Card 3 转折（分屏支点） ===== */
+    #card-3 { background: var(--bg-soft); }
+    #card-3 .pivot {
+      font-size: 56px; line-height: 1.6; font-weight: 700;
+      color: var(--accent); margin: auto 0; text-align: center;
+    }
+    #card-3 .sub {
+      text-align: center; font-size: 26px; color: var(--gold);
+      letter-spacing: 4px; margin-top: 32px;
+    }
+
+    /* ===== Card 5 我的看法 ===== */
+    #card-5 { background: linear-gradient(160deg, var(--bg-soft) 0%, var(--bg) 100%); }
+    #card-5 .sages {
+      display: flex; gap: 40px; margin-bottom: 44px;
+    }
+    #card-5 .sage {
+      flex: 1; padding: 24px 28px;
+      border: 1px solid rgba(184,148,62,0.4);
+      font-size: 30px; line-height: 1.7; color: var(--gold);
+      text-align: center; font-weight: 600;
+    }
+    #card-5 .take {
+      font-size: 40px; line-height: 1.8; font-weight: 700;
+      color: var(--paper); margin-bottom: 44px;
+    }
+    #card-5 .interact {
+      font-size: 36px; line-height: 1.6; color: var(--accent);
+      font-weight: 700; text-align: center;
+    }
+  </style>
+</head>
+<body>
+<div class="card-stack">
+
+  <!-- ============ Card 1 · 封面钩子 ============ -->
+  <div class="card" id="card-1">
+    <div class="card-bg" style="background-image:url('{{CARD1_BG}}')"></div>
+    <div class="card-mask"></div>
+    <div class="safe">
+      <div class="trending">💡 Trending：{{TRENDING_TAG}} · {{TRENDING_PLATFORM}} · {{TRENDING_STATS}}</div>
+      <div class="title">{{TITLE}}</div>
+      <div class="hook">{{HOOK}}</div>
+    </div>
+    <div class="sign">-- {{AUTHOR_NAME}}</div>
+  </div>
+
+  <!-- ============ Card 2 · 观点A ============ -->
+  <div class="card" id="card-2">
+    <div class="card-bg" style="background-image:url('{{CARD2_BG}}')"></div>
+    <div class="card-mask"></div>
+    <div class="safe">
+      <span class="label">{{VIEW_A_LABEL}}</span>
+      <p class="body-text">{{VIEW_A_BODY}}</p>
+      <div class="quote">{{VIEW_A_QUOTE}}</div>
+    </div>
+  </div>
+
+  <!-- ============ Card 3 · 转折支点 ============ -->
+  <div class="card" id="card-3">
+    <div class="card-bg" style="background-image:url('{{CARD3_BG}}')"></div>
+    <div class="card-mask"></div>
+    <div class="pivot">{{TRANSITION}}</div>
+    <div class="sub">— 换个角度看 —</div>
+  </div>
+
+  <!-- ============ Card 4 · 观点B ============ -->
+  <div class="card" id="card-4">
+    <div class="card-bg" style="background-image:url('{{CARD4_BG}}')"></div>
+    <div class="card-mask"></div>
+    <div class="safe">
+      <span class="label">{{VIEW_B_LABEL}}</span>
+      <p class="body-text">{{VIEW_B_BODY}}</p>
+      <div class="quote">{{VIEW_B_QUOTE}}</div>
+    </div>
+  </div>
+
+  <!-- ============ Card 5 · 我的看法 ============ -->
+  <div class="card" id="card-5">
+    <div class="card-bg" style="background-image:url('{{CARD5_BG}}')"></div>
+    <div class="card-mask"></div>
+    <div class="safe">
+      <div class="sages">
+        <div class="sage">孔子：「{{CONFUCIAN_QUOTE}}」</div>
+        <div class="sage">庄子：「{{ZHUANGZI_QUOTE}}」</div>
+      </div>
+      <p class="take">{{AUTHOR_TAKE}}</p>
+      <div class="interact">{{INTERACTION}}</div>
+    </div>
+    <div class="sign">-- {{AUTHOR_NAME}} · {{SERIES_NAME}}</div>
+  </div>
+
+</div>
+</body>
+</html>
