@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Knowledge Card — 武侠漫画版</title>
+<link rel="stylesheet" href="css/wuxia.css">
+  <!-- Inline CSS extracted to assets/css/wuxia.css -->
+</head>
+<body>
+<div class="scroll">
+
+  <!-- ===== 卷轴顶轴 ===== -->
+  <div class="scroll-rod"></div>
+
+  <!-- ===== 秘籍封面 ===== -->
+  <div class="manual-cover" style="overflow:hidden;">
+    <!-- 剑客插图 -->
+    <div class="fig-warrior fig-swordsman">
+      <svg viewBox="0 0 56 90" xmlns="http://www.w3.org/2000/svg">
+        <!-- 头 -->
+        <circle cx="28" cy="14" r="8" fill="var(--ink)" opacity="0.8"/>
+        <!-- 发髻 -->
+        <ellipse cx="28" cy="6" rx="4" ry="5" fill="var(--ink)" opacity="0.7"/>
+        <line x1="28" y1="1" x2="28" y2="3" stroke="var(--ink)" stroke-width="1.5" opacity="0.5"/>
+        <!-- 身体/长袍 -->
+        <path d="M18 24 Q28 18 38 24 L42 52 Q28 58 14 52 Z" fill="var(--ink)" opacity="0.7"/>
+        <!-- 左臂持鞘 -->
+        <path d="M18 28 Q10 32 8 44" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+        <!-- 剑鞘 -->
+        <line x1="6" y1="20" x2="10" y2="50" stroke="var(--ink)" stroke-width="2" opacity="0.65"/>
+        <!-- 右臂挥剑 -->
+        <path d="M38 28 Q48 20 52 14" stroke="var(--cinnabar)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+        <!-- 剑身 -->
+        <polygon points="52,10 50,8 56,2 58,4" fill="var(--cinnabar)" opacity="0.45"/>
+        <!-- 剑尖星光 -->
+        <circle cx="57" cy="3" r="1.5" fill="var(--gold)" opacity="0.5"/>
+        <!-- 袍摆飘动 -->
+        <path d="M14 52 Q8 58 4 62 M42 52 Q48 58 52 62" stroke="var(--ink)" stroke-width="1.5" fill="none" opacity="0.4"/>
+        <!-- 地面墨迹 -->
+        <ellipse cx="28" cy="70" rx="14" ry="3" fill="var(--ink)" opacity="0.15"/>
+      </svg>
+    </div>
+    <div class="secret-tag">武 林 秘 籍</div>
+    <h1>技<span class="highlight-char">术</span>名词</h1>
+    <p class="subtitle">—— 一句话 slogan，用江湖切口讲透武林绝学 ——</p>
+    <div class="author-line">
+      <span class="brush-dot"></span>
+      著 · {{AUTHOR_NAME}} 大侠
+      <span class="brush-dot"></span>
+    </div>
+  </div>
+
+
+  <!-- ===== 第一回：心法总纲（是什么） ===== -->
+  <div class="chapter" style="position:relative;">
+    <!-- 打坐修行者 -->
+    <div class="fig-warrior fig-meditate">
+      <svg viewBox="0 0 48 60" xmlns="http://www.w3.org/2000/svg">
+        <!-- 头 -->
+        <circle cx="24" cy="10" r="7" fill="var(--ink)" opacity="0.75"/>
+        <!-- 发髻 -->
+        <ellipse cx="24" cy="3" rx="3.5" ry="4.5" fill="var(--ink)" opacity="0.6"/>
+        <!-- 盘腿坐姿 -->
+        <ellipse cx="24" cy="34" rx="20" ry="8" fill="var(--ink)" opacity="0.6"/>
+        <!-- 身体 -->
+        <rect x="16" y="18" width="16" height="22" rx="6" fill="var(--ink)" opacity="0.6"/>
+        <!-- 双手合十 -->
+        <path d="M20 22 L24 18 L24 26" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+        <path d="M28 22 L24 18 L24 26" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+        <!-- 内丹光晕 -->
+        <circle cx="24" cy="38" r="6" fill="none" stroke="var(--gold)" stroke-width="0.8" opacity="0.3"/>
+        <circle cx="24" cy="38" r="3" fill="var(--gold)" opacity="0.2"/>
+      </svg>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-num">壹</div>
+      <div class="chapter-title-block">
+        <span class="chapter-title">心 法 总 纲</span>
+        <span class="chapter-subtitle">—— 这项技术到底是什么来头？</span>
+      </div>
+    </div>
+    <div class="brush-stroke"></div>
+    <div class="chapter-body">
+      <div class="copy">
+        <p class="drop-char">一句话定场诗式定义，说清<span class="burst-highlight">核心概念</span>。江湖有云：此乃百年不出之奇术，一朝参透，纵横捭阖不在话下。</p>
+      </div>
+
+      <!-- 武功心法框（类比） -->
+      <div class="xinfa-box">
+        <span class="corner-tl"></span><span class="corner-tr"></span>
+        <span class="corner-bl"></span><span class="corner-br"></span>
+        <span class="xinfa-tag">武功心法</span>
+        <p>用一个武林绝学来比喻这个技术——比如「这就像凌波微步，看似轻描淡写实则步步杀机」，让读者一秒顿悟。</p>
+      </div>
+
+      <!-- 武林大事记 -->
+      <div class="wulin-timeline">
+        <div class="wt-item">
+          <span class="wt-year">2013 · 横空出世</span>
+          <span class="wt-text">技术诞生的背景，如少年侠客初入江湖</span>
+        </div>
+        <div class="wt-item">
+          <span class="wt-year">2017 · 名震武林</span>
+          <span class="wt-text">关键里程碑，一战成名天下知</span>
+        </div>
+        <div class="wt-item">
+          <span class="wt-year">2024 · 一统江湖</span>
+          <span class="wt-text">当前地位与江湖版图</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="flame-divider">★ ☆ ★</div>
+
+  <!-- ===== 第二回：独门绝技（为什么用） ===== -->
+  <div class="chapter" style="position:relative;">
+    <!-- 轻功飞跃侠客 -->
+    <div class="fig-warrior fig-leap">
+      <svg viewBox="0 0 50 52" xmlns="http://www.w3.org/2000/svg">
+        <!-- 速度线 -->
+        <line x1="2" y1="10" x2="16" y2="10" stroke="var(--ink)" stroke-width="0.8" opacity="0.3"/>
+        <line x1="4" y1="20" x2="18" y2="20" stroke="var(--ink)" stroke-width="0.8" opacity="0.25"/>
+        <line x1="0" y1="30" x2="14" y2="30" stroke="var(--ink)" stroke-width="0.8" opacity="0.2"/>
+        <!-- 头 -->
+        <circle cx="24" cy="10" r="6" fill="var(--ink)" opacity="0.75"/>
+        <!-- 披风飘动 -->
+        <path d="M30 16 Q44 8 42 18 Q40 22 38 20" fill="var(--cinnabar)" opacity="0.25"/>
+        <path d="M30 14 Q46 2 44 14 Q42 20 38 18" fill="var(--cinnabar)" opacity="0.2"/>
+        <!-- 身体 — 飞跃姿态 -->
+        <path d="M20 16 Q24 12 28 18 L30 30 Q24 34 18 28 Z" fill="var(--ink)" opacity="0.6"/>
+        <!-- 右臂前伸 -->
+        <path d="M28 18 Q36 12 42 10" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.65"/>
+        <!-- 手掌 -->
+        <circle cx="42" cy="10" r="2" fill="var(--ink)" opacity="0.5"/>
+        <!-- 左臂后摆 -->
+        <path d="M20 20 Q14 26 10 32" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- 左腿收起 -->
+        <path d="M22 30 Q16 36 14 40" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <!-- 右腿伸展 -->
+        <path d="M26 32 Q32 40 36 44" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.55"/>
+        <!-- 飞墨效果 -->
+        <circle cx="44" cy="22" r="1.5" fill="var(--ink)" opacity="0.15"/>
+        <circle cx="46" cy="28" r="1" fill="var(--ink)" opacity="0.1"/>
+      </svg>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-num">贰</div>
+      <div class="chapter-title-block">
+        <span class="chapter-title">独 门 绝 技</span>
+        <span class="chapter-subtitle">—— 凭什么这招比别人的强？</span>
+      </div>
+    </div>
+    <div class="brush-stroke"></div>
+    <div class="chapter-body">
+      <ul class="jueji-list">
+        <li>
+          <strong>绝技一</strong>
+          <span class="j-desc">好比降龙十八掌——刚猛霸道，正面硬刚无人能挡</span>
+        </li>
+        <li>
+          <strong>绝技二</strong>
+          <span class="j-desc">如同太极剑法——以柔克刚，四两拨千斤</span>
+        </li>
+        <li>
+          <strong>绝技三</strong>
+          <span class="j-desc">类似六脉神剑——无形无影，杀人于千里之外</span>
+        </li>
+        <li>
+          <strong>绝技四</strong>
+          <span class="j-desc">仿佛九阳神功——护体罡气，百毒不侵</span>
+        </li>
+      </ul>
+
+      <!-- 速度线爆发 -->
+      <div class="speed-lines">
+        <p>江湖规矩：<em style="font-weight:900;color:var(--cinnabar);font-style:normal;">不是练得越苦越厉害，是路子对才走得远。</em> 选对了这门功夫，省你十年苦修，少走二十年弯路。</p>
+      </div>
+
+      <!-- 武林对决（对比表） -->
+      <div class="vs-badge">VS</div>
+      <div class="duijue-table">
+        <div class="dt-head">
+          <div class="dth">少林长拳</div>
+          <div class="dth">武当绵掌</div>
+        </div>
+        <div class="dt-row">
+          <div class="dtr">
+            <span class="dtr-dim">内力消耗</span>
+            对比内容 A
+          </div>
+          <div class="dtr">
+            <span class="dtr-dim">内力消耗</span>
+            对比内容 B
+          </div>
+        </div>
+        <div class="dt-row">
+          <div class="dtr">
+            <span class="dtr-dim">修习难度</span>
+            对比内容 A
+          </div>
+          <div class="dtr">
+            <span class="dtr-dim">修习难度</span>
+            对比内容 B
+          </div>
+        </div>
+        <div class="dt-row">
+          <div class="dtr">
+            <span class="dtr-dim">实战威力</span>
+            对比内容 A
+          </div>
+          <div class="dtr">
+            <span class="dtr-dim">实战威力</span>
+            对比内容 B
+          </div>
+        </div>
+      </div>
+
+      <!-- 说书人插话 -->
+      <div class="shuoshu-note">
+        <span class="ss-label">说书人插话</span>
+        程序员挑技术框架，像不像菜市场挑土豆？看着都差不多，但有的炖不烂，有的长芽了你还得硬着头皮吃。关键是，<em>你还不能怪土豆</em>——是你自己挑的。
+      </div>
+    </div>
+  </div>
+
+  <div class="flame-divider">★ ☆ ★</div>
+
+  <!-- ===== 第三回：招式拆解（怎么用） ===== -->
+  <div class="chapter">
+    <div class="chapter-header">
+      <div class="chapter-num">叁</div>
+      <div class="chapter-title-block">
+        <span class="chapter-title">招 式 拆 解</span>
+        <span class="chapter-subtitle">—— 这套功夫到底怎么练？</span>
+      </div>
+    </div>
+    <div class="brush-stroke"></div>
+    <div class="chapter-body">
+      <!-- 招式架构图 -->
+      <div class="zhaoshi-diagram">
+        <div class="zd-row">
+          <span class="zd-box">起手式·CLIENT</span>
+          <span class="zd-arrow">→</span>
+          <span class="zd-box">变招·GATEWAY</span>
+          <span class="zd-arrow">→</span>
+          <span class="zd-box">杀招·SERVICE</span>
+        </div>
+        <div class="zd-arrow" style="margin: 4px 0; font-size:14px;">↡</div>
+        <div class="zd-row">
+          <span class="zd-box">丹田·DATA STORE</span>
+        </div>
+      </div>
+
+      <!-- 口诀（代码） -->
+      <div class="koujue-block"><span class="comment"># 此乃入门口诀，默念三遍可通任督二脉</span>
+<span class="cmd">command</span> <span class="flag">--flag</span> <span class="str">"value"</span>
+<span class="comment"># 第二式：运转丹田之气</span>
+<span class="cmd">another-command</span> <span class="str">"hello world"</span></div>
+
+      <!-- 说书人插话 -->
+      <div class="shuoshu-note">
+        <span class="ss-label">说书人插话</span>
+        每次看到命令行我都腿软——不是害怕，是觉得这玩意儿跟我的发际线一样，<em>越写越长</em>。但你别说，敲完之后看着它跑起来，那种成就感，比中彩票还上头。
+      </div>
+
+      <div class="copy">
+        <p>运功要点：<em style="font-weight:900;color:var(--cinnabar);font-style:normal;">param</em> 乃内力之源，需谨慎调配……</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="flame-divider">★ ☆ ★</div>
+
+  <!-- ===== 第四回：江湖险恶（有什么问题） ===== -->
+  <div class="chapter" style="position:relative;">
+    <!-- 持盾护卫 -->
+    <div class="fig-warrior fig-guard">
+      <svg viewBox="0 0 44 58" xmlns="http://www.w3.org/2000/svg">
+        <!-- 头 -->
+        <circle cx="22" cy="10" r="7" fill="var(--ink)" opacity="0.7"/>
+        <!-- 头巾 -->
+        <path d="M15 8 Q22 4 29 8" stroke="var(--cinnabar)" stroke-width="2" fill="none" opacity="0.4"/>
+        <!-- 身体 — 沉稳马步 -->
+        <rect x="14" y="18" width="16" height="20" rx="3" fill="var(--ink)" opacity="0.6"/>
+        <!-- 盾牌 -->
+        <path d="M6 24 L6 38 Q22 48 38 38 L38 24" fill="none" stroke="var(--cinnabar)" stroke-width="2" opacity="0.5"/>
+        <path d="M10 28 L10 38 Q22 44 34 38 L34 28" fill="var(--cinnabar)" opacity="0.08"/>
+        <!-- 盾面纹饰 -->
+        <line x1="22" y1="26" x2="22" y2="40" stroke="var(--cinnabar)" stroke-width="1" opacity="0.25"/>
+        <line x1="14" y1="32" x2="30" y2="32" stroke="var(--cinnabar)" stroke-width="1" opacity="0.2"/>
+        <!-- 右臂握拳 -->
+        <path d="M30 22 Q36 20 38 18" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+        <!-- 左腿 -->
+        <path d="M16 38 Q10 46 8 48" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+        <!-- 右腿 -->
+        <path d="M28 38 Q34 46 36 48" stroke="var(--ink)" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="chapter-header">
+      <div class="chapter-num">肆</div>
+      <div class="chapter-title-block">
+        <span class="chapter-title">江 湖 险 恶</span>
+        <span class="chapter-subtitle">—— 练功别走火入魔！</span>
+      </div>
+    </div>
+    <div class="brush-stroke"></div>
+    <div class="chapter-body">
+      <!-- 互搏双栏 -->
+      <div class="duel-cols">
+        <div class="dc-left">
+          <div class="zouhuo-box danger">
+            <span class="zh-icon">☠</span>
+            <span class="zh-tag">⚠ 走火入魔·其一</span>
+            <p>安全相关的问题或常见踩坑点，具体风险描述。</p>
+          </div>
+          <div class="zouhuo-box danger">
+            <span class="zh-icon">☠</span>
+            <span class="zh-tag">⚠ 走火入魔·其二</span>
+            <p>另一个需要注意的问题，数据持久化或网络相关的坑。</p>
+          </div>
+        </div>
+        <div class="dc-right">
+          <div class="zouhuo-box info">
+            <span class="zh-icon">☯</span>
+            <span class="zh-tag">✦ 前辈指点</span>
+            <p>骨灰级专家的忠告或最佳实践——跟前辈学，少走弯路。</p>
+          </div>
+          <div class="shuoshu-note">
+            <span class="ss-label">说书人插话</span>
+            你知道程序员最擅长什么吗？对着官方文档发呆。每一个字都认识，连起来就不知道它让我干嘛。但别慌——<em>看不懂才是常态</em>，看懂了的都在写公众号割韭菜呢。
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 印章署名 ===== -->
+  <div class="chop-seal" style="position:relative;">
+    <!-- 抱拳告辞 -->
+    <div class="fig-warrior fig-bow">
+      <svg viewBox="0 0 42 48" xmlns="http://www.w3.org/2000/svg">
+        <!-- 头 — 微低 -->
+        <ellipse cx="21" cy="12" rx="7" ry="7.5" fill="var(--ink)" opacity="0.7"/>
+        <!-- 发髻 -->
+        <ellipse cx="21" cy="5" rx="3.5" ry="5" fill="var(--ink)" opacity="0.6"/>
+        <!-- 身体 — 鞠躬姿态 -->
+        <path d="M14 20 Q21 18 28 20 L30 38 Q21 44 12 38 Z" fill="var(--ink)" opacity="0.55"/>
+        <!-- 抱拳 — 左手掌 -->
+        <rect x="14" y="20" width="8" height="10" rx="3" fill="var(--ink)" opacity="0.5" transform="rotate(-10 18 25)"/>
+        <!-- 抱拳 — 右手拳 -->
+        <rect x="20" y="20" width="8" height="10" rx="3" fill="var(--ink)" opacity="0.55" transform="rotate(10 24 25)"/>
+        <!-- 袖口 -->
+        <path d="M12 20 L14 20" stroke="var(--ink)" stroke-width="2" opacity="0.4"/>
+        <path d="M28 20 L30 20" stroke="var(--ink)" stroke-width="2" opacity="0.4"/>
+        <!-- 微光/敬意 -->
+        <circle cx="21" cy="28" r="10" fill="var(--gold)" opacity="0.06"/>
+      </svg>
+    </div>
+    <div class="seal-box">{{AUTHOR_NAME}}印</div>
+  </div>
+
+  <!-- ===== 卷轴底轴 ===== -->
+  <div class="scroll-rod bottom"></div>
+
+  <!-- ===== 页脚 ===== -->
+  <div class="footer">
+    <div class="end-mark">▼ 秘籍至此，参悟完毕 ▼</div>
+    <span class="refs-title">参考文献</span>
+    <ul class="refs">
+      <li>官方文档 · example.com/docs</li>
+      <li>权威来源一 · example.com/s1</li>
+      <li>权威来源二 · example.com/s2</li>
+    </ul>
+    <div class="sig-rule"></div>
+    <div class="sig-row">
+      <div class="sig-left">
+        <span class="sig-caption">秘籍著者</span>
+        <div class="sig-name">{{AUTHOR_NAME}}</div>
+        <span class="sig-sub">武林秘籍 · 独立编纂</span>
+      </div>
+      <div class="sig-divider"></div>
+      <div class="qrcode-box">
+        <img src="{{QR_CODE_IMAGE}}" alt="公众号二维码" class="qrcode-img" />
+        <span class="qrcode-hint">扫码关注 · 每日一招</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
