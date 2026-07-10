@@ -50,7 +50,7 @@ _SCRIPT_DIR = Path(__file__).resolve().parent
 _SKILL_ROOT = _SCRIPT_DIR.parent  # ai-prompt-master/
 
 _CFG_CANDIDATES = [
-    _SCRIPT_DIR / "config" /"agnes_config.yaml",                              # 技能 config/ 目录
+    _SKILL_ROOT / "config" / "agnes_config.yaml",                             # 技能 config/ 目录
     _SKILL_ROOT.parent.parent.parent / "tech-knowledge-card" / "config" / "agnes_config.yaml",  # 项目根
 ]
 _CONFIG_PATH = next((p for p in _CFG_CANDIDATES if p.exists()), _CFG_CANDIDATES[0])
@@ -60,7 +60,7 @@ _CONFIG_PATH = next((p for p in _CFG_CANDIDATES if p.exists()), _CFG_CANDIDATES[
 # 配置加载
 # ============================================================
 def load_config() -> dict:
-    """从 YAML 加载 Agnes 配置。失败返回空字典。"""
+    """从 YAML 加载完整配置（包含 agnes 和 output 节）。失败返回空字典。"""
     if not _CONFIG_PATH.exists():
         print(f"  [WARN] Config not found: {_CONFIG_PATH}", file=sys.stderr)
         return {}
@@ -73,16 +73,29 @@ def load_config() -> dict:
         with open(_CONFIG_PATH, "r", encoding="utf-8") as f:
             cfg = yaml.safe_load(f) or {}
         agnes_cfg = cfg.get("agnes", {}) or {}
+        output_cfg = cfg.get("output", {}) or {}
         api_key = agnes_cfg.get("api_key", "")
         if api_key and api_key != "YOUR_API_KEY_HERE":
             print(f"  [OK] Loaded API key from {_CONFIG_PATH}")
-            return agnes_cfg
+            # 合并 output 配置
+            result = dict(agnes_cfg)
+            result["output"] = output_cfg
+            return result
         else:
             print(f"  [WARN] API key not configured in {_CONFIG_PATH}", file=sys.stderr)
             return {}
     except Exception as e:
         print(f"  [WARN] Config parse error: {e}", file=sys.stderr)
         return {}
+
+def get_output_dir(cfg: dict, default_dir: str = "generated-images") -> Path:
+    """从配置获取图片输出目录的绝对路径。"""
+    output_cfg = cfg.get("output", {}) or {}
+    image_dir = output_cfg.get("image_dir", default_dir)
+    path = Path(image_dir)
+    if not path.is_absolute():
+        path = _SKILL_ROOT / image_dir
+    return path
 
 
 # ============================================================
@@ -353,10 +366,12 @@ def main() -> None:
         batch = True
         args.remove("--batch")
 
-    # --- 获取 API Key ---
+    # --- 获取 API Key 和配置 ---
+    cfg = {}
     if cli_api_key:
         api_key = cli_api_key
         print("  [OK] Using API key from command line")
+        cfg = load_config()
     else:
         cfg = load_config()
         api_key = cfg.get("api_key", "")
@@ -370,23 +385,30 @@ def main() -> None:
             )
             sys.exit(1)
 
+    # --- 确定输出路径 ---
+    # 若命令行未传 output 参数，从 config 读取 output.image_dir
+    if len(args) == 0:
+        default_output_dir = get_output_dir(cfg)
+        import datetime
+        timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M")
+        if batch:
+            args = [str(default_output_dir / f"ai-prompt_{timestamp}")]
+        else:
+            args = [str(default_output_dir / f"ai-prompt_{timestamp}.png")]
+    elif len(args) != 1:
+        usage_hint = (
+            "printf 'p1\\np2\\n...' | python agnes_image.py <OUTPUT_DIR> --batch"
+            if batch
+            else "echo 'prompt' | python agnes_image.py <OUTPUT_PATH>"
+        )
+        print(f"Usage: {usage_hint}", file=sys.stderr)
+        sys.exit(1)
+
     # --- 路由 ---
     if batch:
-        if len(args) != 1:
-            print(
-                "Usage (batch): printf 'p1\\np2\\n...' | python agnes_image.py <OUTPUT_DIR> --batch [--count N] [--image REF]",
-                file=sys.stderr,
-            )
-            sys.exit(1)
         output_dir = args[0]
         batch_mode(api_key, output_dir, count=count, image_path=cli_image, strength=cli_strength, size=cli_size, model=cli_model)
     else:
-        if len(args) != 1:
-            print(
-                "Usage (single): echo 'prompt' | python agnes_image.py <OUTPUT_PATH> [--image REF] [--strength 0.7]",
-                file=sys.stderr,
-            )
-            sys.exit(1)
         output_path = args[0]
         single_mode(api_key, output_path, image_path=cli_image, strength=cli_strength, size=cli_size, model=cli_model)
 
