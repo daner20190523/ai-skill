@@ -3,7 +3,7 @@
 """
 Agnes AI 图像生成脚本 — 支持文生图 (txt2img) 和 图生图 (img2img)。
 
-API Key 优先从同目录下的 agnes_config.yaml 读取，命令行传参会覆盖配置文件。
+API Key 优先从config/agnes_config.yaml 读取，命令行传参会覆盖配置文件。
 
 文生图 (txt2img):
   echo "prompt" | python agnes_image.py <OUTPUT_PATH>
@@ -45,12 +45,12 @@ DEFAULT_MODEL = "agnes-image-2.1-flash"
 DEFAULT_SIZE = "768x1024"  # 3:4 portrait
 
 # ---- 配置文件路径 ----
-# 优先级: 1) 同目录 agnes_config.yaml  2) 项目根 config/agnes_config.yaml
+# 优先级: 1) 技能 config/agnes_config.yaml 目录  2) 项目根 config/agnes_config.yaml
 _SCRIPT_DIR = Path(__file__).resolve().parent
 _SKILL_ROOT = _SCRIPT_DIR.parent  # ai-prompt-master/
 
 _CFG_CANDIDATES = [
-    _SCRIPT_DIR / "agnes_config.yaml",                              # 技能 scripts/ 目录
+    _SCRIPT_DIR / "config" /"agnes_config.yaml",                              # 技能 config/ 目录
     _SKILL_ROOT.parent.parent.parent / "tech-knowledge-card" / "config" / "agnes_config.yaml",  # 项目根
 ]
 _CONFIG_PATH = next((p for p in _CFG_CANDIDATES if p.exists()), _CFG_CANDIDATES[0])
