@@ -13,7 +13,7 @@ description: >
 
 ## 概述
 
-此技能用于将用户的自然语言描述，自动优化转化为结构化的专业 AI 绘图提示词，并调用 Agnes AI API 生成实际图片。核心能力：
+此技能用于将用户的自然语言描述，自动优化转化为结构化的专业 AI 绘图提示词，必须先调用 Agnes AI API 生成实际图片。核心能力：
 1. 将模糊描述扩展为高质量专业 prompt
 2. 按固定 9 模块结构组织输出
 3. 支持 2 种风格融合 + 2 位艺术家融合
@@ -96,9 +96,10 @@ description: >
 - 复古/怀旧 → sepia / muted / vintage film
 
 #### 细节选择
-- 推荐 2-3 个材质/纹理关键词
+- 推荐 2-3 个材质/纹理关键词（优先**有机质感**而非平滑渲染）
 - 推荐 1 个品质精度关键词
 - 推荐 1 个构图方式
+- 🆕 **抗 AI 味材质清单**（见下方「减 AI 味策略」）
 
 #### 创意选择
 - 根据主题推荐 1-2 个创意亮点
@@ -127,9 +128,30 @@ description: >
 【创意】 Creative twist
 【视角】 Camera angle / perspective
 【签名】 Platform-specific tags
+【减 AI 味】 Anti-AI-artifacts tags (新增)
 ```
 
 然后输出一条完整的、可直接使用的 prompt 字符串。
+
+#### 🆕 减 AI 味策略（Anti-AI-Artifacts Protocol）
+
+每次生成 prompt 时，**必须**在细节和签名模块中注入以下抗 AI 味关键词，根据主题类型选择组合：
+
+| AI 味通病 | 注入关键词 | 作用 |
+|---|---|---|
+| **塑料感/过度平滑** | `organic texture`, `subsurface scattering`, `natural imperfections`, `handcrafted feel` | 打破 AI 常见的完美光滑表面 |
+| **笔触不自然** | `visible brushstrokes`, `impasto texture`, `artist hand`, `tactile paint application` | 让笔触有方向感和力度变化 |
+| **光影太均匀** | `asymmetrical lighting`, `uneven exposure`, `natural light falloff`, `light leaks` | 模拟真实光线衰减 |
+| **色彩饱和过度** | `muted tones`, `desaturated shadows`, `film grain`, `color grading` | 降低数字感，增加胶片感 |
+| **细节千篇一律** | `asymmetric details`, `worn edges`, `patina`, `aging marks`, `hand-finished` | 打破 AI 的对称完美主义 |
+| **构图太规整** | `rule of thirds`, `negative space`, `imperfect framing`, `candid composition` | 模拟摄影师抓拍感 |
+| **人物像 CG** | `realistic skin pores`, `micro-wrinkles`, `uneven complexion`, `human imperfection` | 增加真实皮肤质感 |
+| **背景假** | `depth of field blur`, `lens distortion`, `chromatic aberration`, `vignette` | 模拟相机光学特性 |
+
+**组合规则**：每个 prompt 至少注入 3 组关键词，最多 5 组，根据主题匹配：
+- 人物肖像 → 塑料感 + 皮肤质感 + 光影不均 + 胶片颗粒
+- 风景 → 笔触感 + 色彩 muted + 镜头畸变 + 不对称构图
+- 奇幻/科幻 → 材质磨损 + 细节不对称 + 手工感 + 胶片感
 
 ### Step 5: 单版本输出
 
@@ -341,6 +363,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 【创意】{creative element}
 【视角】{camera angle / perspective}
 【签名】{platform tags}
+【减 AI 味】{anti-ai-tags}
 
 📝 完整 Prompt：
 ─────────────────────────────────
@@ -505,7 +528,7 @@ growth_log.md
 
 ## 核心原则
 
-1. **结构优先**：始终按 9 模块结构组织，不遗漏
+1. **结构优先**：始终按 9+1 模块结构组织（含减 AI 味模块），不遗漏
 2. **风格融合**：每次必融合 2 种风格 + 2 位艺术家，形成化学反应
 3. **英文为主**：完整 prompt 用英文（主流工具最优），结构拆解用中文
 4. **精准匹配**：风格/艺术家/光影/视角必须与主题契合，不可随意拼凑
@@ -516,3 +539,4 @@ growth_log.md
 9. **保存 md**：每次生成后自动保存完整提示词为 md 文件到 `generated-prompts/` 目录
 10. **自动生图**：API Key 和图片输出路径内置在 `config/agnes_config.yaml`，输出 prompt 后自动调用 `scripts/agnes_image.py` 生成图片
 11. **🆕 图生图支持**：用户提供参考图时自动切换 img2img 模式，`--image` 传入参考图，`--strength` 控制重绘强度
+12. **🆕 反塑料感原则**：每个 prompt 必须注入至少 3 组抗 AI 味关键词（见「减 AI 味策略」），避免完美光滑、均匀光照、对称构图的"AI 味"

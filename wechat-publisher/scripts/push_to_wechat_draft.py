@@ -50,8 +50,9 @@ def load_config(config_path: str = None) -> dict:
         search_paths.append(Path(config_path))
     else:
         search_paths = [
-            skill_dir / "config" / "wechat_config.template.yaml",
+            skill_dir / "config" / "wechat_config.secret.yaml",
             skill_dir / "config" / "wechat_config.yaml",
+            skill_dir / "config" / "wechat_config.template.yaml",
         ]
 
     cfg = {}

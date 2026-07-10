@@ -47,6 +47,7 @@
 - `watermark, text, signature, logo, frame`
 - `lowres, jpeg artifacts, grain, noise`
 - `crooked, asymmetric, disfigured, mutation`
+- **🆕 减 AI 味专用负面词**：`plastic skin, waxy texture, over-smoothed, airbrushed look, digital sheen, hyper-realistic plastic, uniform lighting, sterile composition, perfect symmetry, cartoonish, artificial glow, flat shading, AI-generated look, oversaturated, unnatural gradients`
 
 ---
 
