@@ -2,8 +2,8 @@
 name: ai-prompt-master
 description: >
   AI 绘图提示词大师。当用户需要生成、优化或翻译 AI 绘图提示词时触发此技能。
-  支持将自然语言自动转化为结构化专业提示词，按「风格+艺术家+光影+色彩+细节+主题+创意+视角+个性签名」
-  九大模块输出。支持风格双融合、艺术家双融合，适配 Midjourney、Stable Diffusion、DALL·E 等主流平台。
+  支持将自然语言自动转化为结构化专业提示词，按「风格+构图+光影+色彩+细节+主题+创意+视角+个性签名」
+  九大模块输出。支持风格双融合、构图策略组合，适配 Midjourney、Stable Diffusion、DALL·E 等主流平台。
   生成提示词后自动调用 Agnes AI 文生图 API 生成对应图片，用户可直接看到生成效果。
   触发关键词：AI绘图提示词、prompt生成、绘画提示词、MJ提示词、SD提示词、AI绘画、文生图提示词、
   image prompt、优化提示词、生成prompt、画图提示词、帮我画、生成图片、生成图像。
@@ -13,10 +13,10 @@ description: >
 
 ## 概述
 
-此技能用于将用户的自然语言描述，自动优化转化为结构化的专业 AI 绘图提示词，必须先调用 Agnes AI API 生成实际图片。核心能力：
+此技能用于将用户的自然语言描述，自动优化转化为结构化的专业 AI 绘图提示词，必须先调用 Agnes AI API 生成实际图片。禁止调用image_gen.核心能力：
 1. 将模糊描述扩展为高质量专业 prompt
 2. 按固定 9 模块结构组织输出
-3. 支持 2 种风格融合 + 2 位艺术家融合
+3. 支持 2 种风格融合
 4. 自动推荐并补全光影、色彩、细节、视角、创意等维度
 5. 适配 Midjourney / Stable Diffusion / DALL·E 等主流平台
 6. **自动生图**：API Key 和图片输出路径内置在 `config/agnes_config.yaml`，开箱即用
@@ -54,8 +54,8 @@ description: >
 读取 `references/style_library.md` 获取：
 - 风格关键词库（传统绘画/现代数字/摄影电影/插画设计/东方美学）
 - 风格融合建议表（经典组合推荐）
-- 艺术家参考库（西方古典/现代当代/中国艺术家/摄影师）
 - 光影/色彩/细节/创意关键词库
+- 构图策略库（三分法/对称/引导线/框架/负空间/对角线/俯视/仰视）
 
 读取 `references/signature_library.md` 获取：
 - 各平台参数签名
@@ -64,7 +64,7 @@ description: >
 - 负面提示词参考
 
 读取 `references/growth_log.md` 获取：
-- 历史自增长的新风格、新艺术家、新融合组合
+- 历史自增长的新风格、新融合组合
 - 使用统计（了解哪些组合被高频使用）
 - 将日志中的条目视为词库扩展，与静态词库同等优先级使用
 
@@ -76,10 +76,21 @@ description: >
 - 参考 `style_library.md` 中的"风格融合建议"表
 - 两风格需形成有化学反应的组合（如：传统+现代、东方+西方、写实+幻想）
 
-#### 艺术家选择（选 2 位融合）
-- 若用户提到了艺术家，直接采用
-- 若未提，根据主题+风格推荐 2 位形成互补的艺术家
-- 两位艺术家的特点应能产生碰撞（如：一位擅长光影+一位擅长构图）
+#### 构图策略（选 2 种组合）
+- 若用户指定了构图方式，以用户为准
+- 若未提，根据主题+视角推荐 2 种形成互补的构图策略
+- 两位构图策略的特点应能产生碰撞（如：对称+引导线、三分法+负空间、对角线+框架）
+- **构图策略库**：
+  - **三分法** rule of thirds — 主体偏离中心，留白呼吸感
+  - **对称构图** symmetrical composition — 庄重稳定，适合建筑/肖像
+  - **引导线** leading lines — 视线引导，适合道路/河流/走廊
+  - **框架构图** framing — 前景框住主体，增加层次
+  - **负空间** negative space — 大面积留白突出主体
+  - **对角线** diagonal composition — 动感张力，适合动作/风景
+  - **俯视** bird's eye view — 上帝视角，展现全局
+  - **仰视** worm's eye view — 低角度夸张，适合高大主体
+  - **中心构图** centered composition — 主体居中，视觉冲击
+  - **黄金螺旋** golden spiral / Fibonacci — 经典美学比例
 
 #### 光影选择
 - 根据主题氛围推荐 1-2 种光影效果
@@ -120,7 +131,7 @@ description: >
 
 ```
 【风格】 Style A × Style B
-【艺术家】 Artist A + Artist B  
+【构图】 Composition Strategy A + Composition Strategy B  
 【光影】 Lighting keywords
 【色彩】 Color keywords
 【细节】 Detail keywords
@@ -156,7 +167,7 @@ description: >
 ### Step 5: 单版本输出
 
 每个请求输出 **1 个精炼版本**，聚焦最优搭配：
-- 风格融合 + 艺术家融合取最佳化学反应组合
+- 风格融合 + 构图策略组合取最佳化学反应组合
 - 光影/色彩/细节/视角/创意均精选 1-2 个最优关键词
 - 兼顾出图质量与创意表现，不做冗余多版本
 
@@ -190,7 +201,7 @@ md 文件包含完整提示词，按以下结构组织：
 | 模块 | 内容 |
 |------|------|
 | **风格** | {Style A} × {Style B} |
-| **艺术家** | {Artist A} + {Artist B} |
+| **构图** | {Composition A} + {Composition B} |
 | **光影** | {lighting} |
 | **色彩** | {color palette} |
 | **细节** | {details} |
@@ -337,7 +348,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 
 在完成输出、md 保存和生图后，执行自增长协议（详见「风格库自增长协议」章节）：
 
-1. 提取本次使用的全部风格、艺术家、光影、色彩、细节、创意、视角关键词
+1. 提取本次使用的全部风格、光影、色彩、细节、创意、视角关键词
 2. 逐一比对 `style_library.md`、`signature_library.md`、`growth_log.md` 中已有条目
 3. 将未收录的新条目追加到 `growth_log.md` 对应 `<!-- GROWTH:XXX -->` 标记下方
 4. 更新 `<!-- GROWTH:STATS -->` 使用统计表
@@ -355,7 +366,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 📌 主题：{用户原始意图}
 
 【风格】{Style A} × {Style B}
-【艺术家】{Artist A} + {Artist B}
+【构图】{Composition A} + {Composition B}
 【光影】{lighting}
 【色彩】{color palette}
 【细节】{details}
@@ -390,7 +401,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 【中文意译】{中文翻译}
 
 【结构拆解】
-风格：{S} | 艺术家：{A} | 光影：{L}
+风格：{S} | 构图：{C} | 光影：{L}
 色彩：{C} | 细节：{D} | 创意：{T} | 视角：{P}
 ```
 
@@ -399,8 +410,8 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 当用户提供已有 prompt 要求优化时：
 
 1. 分析原 prompt 的优缺点
-2. 补充缺失的模块（风格/艺术家/光影/色彩等）
-3. 优化关键词顺序（主题在前，修饰在后）
+2. 补充缺失的模块（风格/构图/光影/色彩等）
+3. 优化关键词顺序（风格在前，主题在中，修饰在后）
 4. 去掉冗余或矛盾的词
 5. 输出优化后版本，标注改动点
 
@@ -431,7 +442,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 |------|---------|-----------|
 | 新风格 | `growth_log.md` | `<!-- GROWTH:STYLES -->` |
 | 新风格融合 | `growth_log.md` | `<!-- GROWTH:FUSIONS -->` |
-| 新艺术家 | `growth_log.md` | `<!-- GROWTH:ARTISTS -->` |
+| 新构图策略 | `growth_log.md` | `<!-- GROWTH:COMPOSITIONS -->` |
 | 新光影方案 | `growth_log.md` | `<!-- GROWTH:LIGHTING -->` |
 | 新色彩方案 | `growth_log.md` | `<!-- GROWTH:COLORS -->` |
 | 新细节/材质 | `growth_log.md` | `<!-- GROWTH:DETAILS -->` |
@@ -442,7 +453,7 @@ generated-images/ai-prompt_YYYYMMDD_HHMM/
 ### 自增长判断规则
 
 每次输出后，逐项比对：
-1. 提取本次使用的全部风格名、艺术家名、光影关键词、色彩方案、细节词、创意手法、视角关键词
+1. 提取本次使用的全部风格名、构图策略名、光影关键词、色彩方案、细节词、创意手法、视角关键词
 2. 对比 `style_library.md` 和 `signature_library.md` 中已收录的条目
 3. 对比 `growth_log.md` 中已追加过的条目
 4. **仅当某条目在词库和日志中都不存在时**，才追加
@@ -476,8 +487,9 @@ growth_log.md
 <!-- GROWTH:FUSIONS -->
 | {风格A} | {风格B} | {融合效果描述} |
 
-<!-- GROWTH:ARTISTS -->
-- **{艺术家名}** - {风格特征}, {擅长领域}
+<!-- GROWTH:COMPOSITIONS -->
+- **{构图策略中文名}** {英文关键词}, {特征描述}
+<!-- 示例：- **黄金螺旋** golden spiral / Fibonacci, classic aesthetic proportion -->
 
 <!-- GROWTH:LIGHTING -->
 - **{光影名}** - {效果描述}
@@ -513,8 +525,8 @@ growth_log.md
 🌱 本次词库增长：
 + 新风格：酸性设计
 + 新融合：赛博朋克 × 岩彩画
-+ 新艺术家：Artgerm
-📊 词库规模：风格 47 | 艺术家 44 | 融合 13
++ 新构图：三分法 + 负空间
+📊 词库规模：风格 47 | 构图 15 | 融合 13
 ```
 
 ### 防重复机制
@@ -529,14 +541,14 @@ growth_log.md
 ## 核心原则
 
 1. **结构优先**：始终按 9+1 模块结构组织（含减 AI 味模块），不遗漏
-2. **风格融合**：每次必融合 2 种风格 + 2 位艺术家，形成化学反应
+2. **风格融合**：每次必融合 2 种风格 + 2 种构图策略，形成化学反应
 3. **英文为主**：完整 prompt 用英文（主流工具最优），结构拆解用中文
-4. **精准匹配**：风格/艺术家/光影/视角必须与主题契合，不可随意拼凑
+4. **精准匹配**：风格/构图/光影/视角必须与主题契合，不可随意拼凑
 5. **平台适配**：根据用户指定的平台调整参数格式
 6. **单版本精炼**：一次输出一个最优版本，聚焦最佳搭配
 7. **可解释性**：每个选择都要有理由，让用户理解为什么这么搭配
 8. **自增长**：每次使用后自动比对词库，追加新发现条目到 `references/growth_log.md`
-9. **保存 md**：每次生成后自动保存完整提示词为 md 文件到 `generated-prompts/` 目录
+9. **保存 md**：每次生成后自动保存完整提示词为 md 文件到 `config/agnes_config.yaml`配置的`prompt_dir`对应值的 目录
 10. **自动生图**：API Key 和图片输出路径内置在 `config/agnes_config.yaml`，输出 prompt 后自动调用 `scripts/agnes_image.py` 生成图片
 11. **🆕 图生图支持**：用户提供参考图时自动切换 img2img 模式，`--image` 传入参考图，`--strength` 控制重绘强度
 12. **🆕 反塑料感原则**：每个 prompt 必须注入至少 3 组抗 AI 味关键词（见「减 AI 味策略」），避免完美光滑、均匀光照、对称构图的"AI 味"

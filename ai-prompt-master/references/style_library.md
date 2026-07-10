@@ -70,59 +70,6 @@
 | 绘本风格 | 3D渲染 | 立体童话世界 |
 | 水墨画 | 电影质感 | 东方意境大片 |
 
----
-
-## 艺术家参考库（Artists Reference）
-
-### 西方古典大师
-- **Leonardo da Vinci** - sfumato, Renaissance, anatomical precision
-- **Rembrandt** - chiaroscuro, golden light, dramatic shadows
-- **Vermeer** - Dutch Golden Age, soft window light, domestic scenes
-- **Van Gogh** - impasto, swirling brushstrokes, vibrant yellows and blues
-- **Monet** - Impressionism, dappled light, water lilies, broken color
-- **Turner** - atmospheric light, stormy seascapes, luminous haze
-- **Caravaggio** - tenebrism, dramatic spotlight, religious drama
-- **Gustav Klimt** - gold leaf, decorative patterns, sensual figures
-- **Alphonse Mucha** - Art Nouveau, flowing lines, decorative borders, ethereal women
-- **M.C. Escher** - impossible geometry, tessellation, optical illusion
-
-### 现代/当代
-- **Studio Ghibli** - Miyazaki aesthetic, lush nature, soft colors, wonder
-- **Makoto Shinkai** - radiant lighting, photorealistic skies, emotional landscapes
-- **Moebius (Jean Giraud)** - ligne claire, surreal landscapes, sci-fi
-- **Syd Mead** - futuristic design, Blade Runner aesthetic, industrial design
-- **Yoshitaka Amano** - ethereal fantasy, flowing lines, gold accents, Final Fantasy
-- **Hayao Miyazaki** - hand-drawn warmth, nature reverence, mechanical detail
-- **James Jean** - ornate surrealism, flowing compositions, delicate linework
-- **Loish (Lois van Baarle)** - soft digital painting, glowing skin, warm tones
-- **WLOP (Wang Ling)** - ethereal digital art, glowing particles, dramatic lighting
-- **Beeple** - dystopian sci-fi, maximalist detail, political commentary
-- **Greg Rutkowski** - epic fantasy, dramatic lighting, oil-painting digital style
-- **Ross Tran** - vibrant colors, dynamic poses, cinematic lighting
-- **Zdzisław Beksiński** - dystopian surrealism, organic decay, haunting atmosphere
-- **H.R. Giger** - biomechanical, alien aesthetics, dark surrealism
-- **Katsuya Terada** - detailed ink work, grotesque beauty, cyberpunk
-
-### 中国艺术家
-- **徐悲鸿** - Chinese ink and western realism, horse paintings, dynamic brushwork
-- **齐白石** - expressive ink, shrimp and insects, simplicity with spirit
-- **张大千** - splashed ink and color, abstract landscapes, tradition meets modern
-- **吴冠中** - fusion of East and West, abstract landscapes, dots and lines
-- **黄永玉** - bold colors, whimsical ink, folk art influence
-- **蔡国强** - gunpowder art, explosive energy, ephemeral beauty
-- **赵无极** - abstract expressionism, lyrical abstraction, cosmic energy
-- **丰子恺** - simple line drawing, warm humanism, daily life poetry
-
-### 摄影师
-- **Ansel Adams** - zone system, majestic landscapes, perfect contrast
-- **Henri Cartier-Bresson** - decisive moment, street photography, composition
-- **Cindy Sherman** - conceptual self-portraits, identity, staged photography
-- **Tim Walker** - whimsical fashion, oversized props, fairy tale aesthetic
-- **Annie Leibovitz** - dramatic portraiture, cinematic lighting, storytelling
-- **杉本博司 (Hiroshi Sugimoto)** - long exposure, time concept, minimalist seascapes
-
----
-
 ## 光影关键词库
 
 ### 自然光
